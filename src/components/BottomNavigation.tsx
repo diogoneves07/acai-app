@@ -1,6 +1,11 @@
 import React from "react";
 
-import { ArrowLeft, ArrowRight } from "@mui/icons-material";
+import {
+  ArrowLeft,
+  ArrowRight,
+  HelpCenter,
+  Receipt,
+} from "@mui/icons-material";
 import { Button } from "@mui/material";
 import styled from "@emotion/styled";
 import AddOrderButton from "./AddOrderButton";
@@ -25,7 +30,6 @@ const Div = styled.div`
   .bottomNavigationFixed div {
     height: 100%;
     overflow-x: auto;
-
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -50,19 +54,45 @@ const Div = styled.div`
     font-size: 35px;
     position: relative;
   }
+
+  .bottomNavigationFixed span {
+    width: 100%;
+    height: 100%;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: #fff;
+    font-size: 13px !important;
+  }
+  .bottomNavigationFixed span > svg {
+    font-size: 25px;
+    margin-right: 5px;
+  }
 `;
 
 export default function BottomNavigation({
   nextTab,
   previousTab,
+  helpTab,
+  finishOrderTab,
 }: {
   nextTab: () => void;
   previousTab: () => void;
+  helpTab: () => void;
+  finishOrderTab: () => void;
 }): JSX.Element {
   return (
     <Div>
       <div className="bottomNavigationFixed">
         <div>
+          <Button onClick={helpTab}>
+            <span>
+              <HelpCenter />
+              Ajuda
+            </span>
+          </Button>
           <Button onClick={previousTab}>
             <ArrowLeft />
           </Button>
@@ -71,6 +101,13 @@ export default function BottomNavigation({
 
           <Button onClick={nextTab}>
             <ArrowRight />
+          </Button>
+
+          <Button onClick={finishOrderTab}>
+            <span>
+              <Receipt />
+              Finalizar pedido
+            </span>
           </Button>
         </div>
       </div>

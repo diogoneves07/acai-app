@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
 
 import Add from "@mui/icons-material/Add";
 import styled from "@emotion/styled";
+import AlertDialog from "./AlertDialog";
+import validateOrder from "../lib/validate-order";
 
 const Div = styled.div`
   width: 100px;
@@ -20,23 +22,37 @@ const Div = styled.div`
     top: 0px !important;
     left: 0px !important;
   }
-  & a {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 `;
 
 export default function AddOrderButton(): JSX.Element {
+  const [dialog, setDialog] = useState(false);
+
+  function handleAddClick(): void {
+    const check = validateOrder();
+
+    if (check.bottle || check.flavor) {
+      setDialog(() => true);
+    } else {
+      setDialog(() => false);
+    }
+  }
+
+  function handleConfrim(): void {
+    localStorage.clear();
+    location.reload();
+  }
+
   return (
     <Div>
-      <Button>
-        <a href="/add-product">
-          <Add />
-        </a>
+      {dialog && (
+        <AlertDialog
+          onConfrim={handleConfrim}
+          title="Recomeçar pedido!"
+          mesage="Exite um pedido em andamento, tem certeza que deseja recomeçar?"
+        />
+      )}
+      <Button onClick={handleAddClick}>
+        <Add />
       </Button>
     </Div>
   );

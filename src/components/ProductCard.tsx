@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import type { IconButtonProps } from "@mui/material/IconButton";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -30,14 +29,28 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
+interface ProductCardProps {
+  name: string;
+  imageLink: string;
+  desc: string;
+  cardWidth?: number;
+  onChoose?: () => void;
+  isSelected?: boolean;
+}
+
 export default function ProductCard({
-  title,
+  name,
   imageLink,
   desc,
-  price,
-  createdAt,
-}: any): JSX.Element {
+  cardWidth = 345,
+  isSelected = false,
+  onChoose,
+}: ProductCardProps): JSX.Element {
   const [expanded, setExpanded] = useState(false);
+
+  function handleGetProductClick(): void {
+    if (onChoose !== undefined) onChoose();
+  }
 
   function handleExpandClick(): void {
     setExpanded(!expanded);
@@ -46,19 +59,25 @@ export default function ProductCard({
   return (
     <Card
       sx={{
-        width: 345,
+        width: cardWidth,
         margin: "20px 30px",
         bgcolor: "#1c1b22",
         color: "#fff",
+        cursor: "pointer",
       }}
     >
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+          <Avatar
+            sx={{
+              bgcolor: "purple",
+            }}
+            aria-label="recipe"
+          >
+            {name.trim()[0]}
           </Avatar>
         }
-        title="Shrimp and Chorizo Paella"
+        title={name}
       />
       <CardMedia
         component="img"
@@ -67,12 +86,13 @@ export default function ProductCard({
         alt="Paella dish"
         sx={{ padding: "10px" }}
       />
-      <CardContent>
-        <Typography variant="body2">{title}</Typography>
-      </CardContent>
+
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon sx={{ fill: "red" }} />
+        <IconButton
+          onClick={handleGetProductClick}
+          aria-label="Adicionar ao pedido"
+        >
+          <FavoriteIcon sx={{ fill: isSelected ? "red" : "white" }} />
         </IconButton>
 
         <ExpandMore
@@ -86,11 +106,7 @@ export default function ProductCard({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Desc:</Typography>
-
           <Typography paragraph>{desc}</Typography>
-
-          <Typography>{price}</Typography>
         </CardContent>
       </Collapse>
     </Card>

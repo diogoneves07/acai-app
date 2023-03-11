@@ -4,16 +4,16 @@ import { Typography } from "@mui/material";
 import ProductCard from "./ProductCard";
 import { ProductsContainerStyled, ProductsStyled } from "./ProductsStyled";
 import TabsTitle from "./TabsTitle";
-import { flavorsReducer, flavorsReducerValue } from "../lib/handle-flavor";
-import { getAllFlavors } from "../../api/fake-db-products";
+import { bottlesReducer, bottlesReducerValue } from "../lib/handle-bottle";
+import { getAllBottles } from "../../api/fake-db-products";
 
-const allFlavors = getAllFlavors();
+const allAllBottles = getAllBottles();
 
-export default function Flavors(): JSX.Element {
-  const [flavor, dispatch] = useReducer(flavorsReducer, flavorsReducerValue);
+export default function Bottles(): JSX.Element {
+  const [bottle, dispatch] = useReducer(bottlesReducer, bottlesReducerValue);
 
-  function handleFlavorClick(id: string): void {
-    if (flavor.flavorId === id) {
+  function handleBottleClick(id: string): void {
+    if (bottle.bottleId === id) {
       dispatch(undefined);
     } else {
       dispatch(id);
@@ -23,18 +23,17 @@ export default function Flavors(): JSX.Element {
   return (
     <ProductsContainerStyled>
       <TabsTitle />
-
-      <Typography paragraph>Escolha o sabor do seu açai:</Typography>
+      <Typography paragraph>Escolha o tamanho do copo:</Typography>
 
       <ProductsStyled>
-        {allFlavors.map(({ name, desc, imageLink }, index) => {
+        {allAllBottles.map(({ name, desc, imageLink }, index) => {
           const id = index.toString();
           return (
             <ProductCard
               key={name}
-              isSelected={flavor.flavorId === id}
+              isSelected={bottle.bottleId === id}
               onChoose={() => {
-                handleFlavorClick(id);
+                handleBottleClick(id);
               }}
               imageLink={imageLink}
               name={name}
