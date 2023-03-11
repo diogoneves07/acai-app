@@ -1,6 +1,6 @@
-## Açai App
+## Açaí App
 
-Essa é uma aplicaçãos simples que simula um sistema de venda de açãi.
+Essa é uma aplicaçãos simples que simula um sistema de venda de açaí.
 
 ## Configuração
 
@@ -23,3 +23,9 @@ husky
 prettier
 
 eslint
+
+## Para executar...
+
+`npm install`
+
+`npm run dev`
